@@ -83,3 +83,4 @@ rebar3
 accounts_mng.d
 xrefr
 .tool-versions
+.formatter.exs
