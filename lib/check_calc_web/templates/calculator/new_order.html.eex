@@ -1,0 +1,33 @@
+<div class="container">
+  <div class="default-block">
+    <h3 class="page-header">Calculate check amount for order:</h3>
+    <br>
+    <div>
+    </div>
+    <ul class="settings-list">
+      <div id="product_config">
+        <ul style="text-align: left; margin: 0;">
+          <%=form_for @conn, Routes.calculator_path(@conn, :calculate), [id: "products_list"], fn f ->%>
+          <%= hidden_input f, :products, [name: "products[]"] %>
+          <%= for {_product, i} <- Enum.with_index(@products) do %>
+          <li id="product_<%=i%>">
+            <img
+                    class="intext-icon" style="margin-left: 2.0rem;"
+                    onclick="remove('products_list', 'product_<%=i%>')"
+                    src="<%=Routes.static_path(@conn, "/images/remove_circle.svg")%>"
+            >
+          </li>
+          <% end %>
+          <li id="new_product">
+                <span style="cursor: pointer; color: #0069d9;"
+                      onclick="appendProduct('<%= Routes.static_path(@conn, "/images/remove_circle.svg")%>')">
+                  <img class="intext-icon" src="<%= Routes.static_path(@conn, "/images/add_circle.svg")%>">
+                  Add new product
+                </span>
+          </li>
+        </ul><%= submit "CALCULATE" %>
+        <% end %>
+      </div>
+    </ul>
+  </div>
+</div>

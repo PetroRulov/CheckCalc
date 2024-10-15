@@ -1,0 +1,11 @@
+<%= if @mark == "new_order" do %>
+<h1>ADD NEW PRODUCTS:</h1>
+<%= render "new_order.html", assigns %>
+<% end %>
+
+<%= if @mark == "result" do %>
+<h1>RESULT:</h1>
+<%= render "results.html", assigns %>
+<% end %>
+
+<span><%= link "Back", to: Routes.page_path(@conn, :index) %></span>

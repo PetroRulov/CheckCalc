@@ -1,0 +1,18 @@
+<div class="container">
+    <div class="default-block">
+        <h3 class="page-header">TOTAL amount for order considering existing DISCOUNTS:</h3>
+        <br>
+        <div>
+        </div>
+        <ul class="settings-list">
+            <hr>
+            <div id="calculation_result">
+                <ul style="text-align: left; margin: 0;">
+
+                    <h1>Total price expected: £<%= @result %></h1>
+
+                    <%= submit "DISPLAY" %>
+            </div>
+        </ul>
+    </div>
+</div>
