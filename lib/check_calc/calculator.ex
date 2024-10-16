@@ -75,9 +75,6 @@ defmodule CheckCalc.Calculator do
     |> Decimal.normalize()
   end
 
-  #  product = CheckCalc.Calculator.get_product("CF1")
-  #  CheckCalc.Calculator.calc_with_bulk_value(product, 5, Decimal.from_float(2 / 3))
-  #  CheckCalc.Calculator.calc_with_bulk_value(product, 2, Decimal.from_float(2 / 3))
   def calc_with_bulk_value(product, quantity, discount) do
     case quantity >= product.discount_bulk do
       true ->

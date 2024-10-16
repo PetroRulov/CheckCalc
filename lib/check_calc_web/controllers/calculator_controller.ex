@@ -1,8 +1,6 @@
 defmodule CheckCalcWeb.CalculatorController do
   use CheckCalcWeb, :controller
 
-  require Logger
-
   alias CheckCalc.Service
 
   def calculate(conn, %{"products" => def_products}) do
@@ -34,7 +32,6 @@ defmodule CheckCalcWeb.CalculatorController do
   end
 
   def compose_message(order_items_list) do
-    # {"SR1", "Strawberries", Decimal.new("5.00"), 1},
     Enum.reduce(order_items_list, ["Basket: "], fn {code, name, price, quantity}, acc ->
       acc ++
         [
