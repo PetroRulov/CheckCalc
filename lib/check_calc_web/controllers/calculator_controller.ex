@@ -3,19 +3,15 @@ defmodule CheckCalcWeb.CalculatorController do
 
   require Logger
 
-  alias CheckCalc.Calculator
+  alias CheckCalc.Service
 
   def calculate(conn, %{"products" => def_products}) do
-    Logger.info("DEF_pRODUCTS: #{inspect(def_products)}")
-
     case is_map(def_products) do
       true ->
         products = Map.values(def_products)
-        Logger.info("CONTROLLER_PRODUCTS: #{inspect(products)}")
 
-        {:ok, {order_items_list, total}} = Calculator.calculate_check(products)
+        {:ok, {order_items_list, total}} = Service.calculate(products)
         result = total |> Decimal.round(2, :ceiling) |> Decimal.to_float()
-        Logger.info("RESULT: #{inspect(result)}")
         msg = compose_message(order_items_list)
 
         conn

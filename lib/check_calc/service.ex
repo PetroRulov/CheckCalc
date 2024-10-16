@@ -15,10 +15,6 @@ defmodule CheckCalc.Service do
     }
   end
 
-  def calculate([]) do
-    GenServer.call(__MODULE__, {:calculate, []})
-  end
-
   def calculate(check_params) do
     GenServer.call(__MODULE__, {:calculate, check_params})
   end
@@ -31,10 +27,6 @@ defmodule CheckCalc.Service do
   end
 
   @impl true
-  def handle_call({:calculate, []}, _from, state) do
-    {:reply, {:error, "Empty check"}, %{state | ref: nil}}
-  end
-
   def handle_call({:calculate, check_params}, _from, state) do
     task =
       Task.Supervisor.async_nolink(CheckCalc.TaskSupervisor, fn ->

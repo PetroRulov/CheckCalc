@@ -9,7 +9,7 @@ defmodule CheckCalc.Support.Generators do
     unconditional_fields_gen = %{
       code: StreamData.string(:alphanumeric, length: 3),
       name: StreamData.string(:alphanumeric, length: 3..20),
-      price: StreamData.integer(1..1000) |> StreamData.map(&%Decimal{coef: &1, exp: -2}),
+      price: StreamData.integer(1..10000) |> StreamData.map(&%Decimal{coef: &1, exp: -2}),
       bogof: StreamData.boolean()
     }
 

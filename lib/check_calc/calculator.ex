@@ -1,8 +1,6 @@
 defmodule CheckCalc.Calculator do
   @moduledoc false
 
-  require Logger
-
   alias CheckCalc.Struct.Product
 
   @spec calculate_check(list()) :: {:ok, {map(), Decimal.t()}} | {:error, {atom(), any()}}
@@ -14,7 +12,6 @@ defmodule CheckCalc.Calculator do
         Map.update(acc, code, quantity, &(&1 + quantity))
       end)
 
-    Logger.info("PRODUCTS: #{inspect(products_map)}")
     calculate_groupped_products(products_map)
   end
 

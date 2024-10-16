@@ -14,6 +14,7 @@ defmodule CheckCalc.Application do
       {Phoenix.PubSub, name: CheckCalc.PubSub},
       # Start the Endpoint (http/https)
       CheckCalcWeb.Endpoint,
+      CheckCalc.Service,
       # Start a worker by calling: CheckCalc.Worker.start_link(arg)
       # {CheckCalc.Worker, arg}
       {Task.Supervisor, name: CheckCalc.TaskSupervisor}
