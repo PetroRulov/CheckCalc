@@ -44,8 +44,8 @@ defmodule CheckCalcWeb.CalculatorControllerTest do
     assert html_response(new_conn, 200) =~ "Total price expected: £66.61"
   end
 
-  test "test one buy-one-get-one-free (bogof) product in order", %{conn: conn} do
-    products = bogof_one_product_order()
+  test "test calculate two buy-one-get-one-free (bogof) product in order", %{conn: conn} do
+    products = two_bogof_products_order()
     result = 3.11
     new_conn = post(conn, Routes.calculator_path(conn, :calculate, %{"products" => products}))
 
@@ -53,11 +53,47 @@ defmodule CheckCalcWeb.CalculatorControllerTest do
              %{
                "info" => [
                  "Basket: ",
-                 "GR1, Green tea - 1 x £3.11 |\n"
+                 "GR1, Green tea - 2 x £3.11 |\n"
                ]
              }
 
     assert html_response(new_conn, 200) =~ "Total price expected: £3.11"
+    assert Map.get(new_conn.assigns, :result) == result
+  end
+
+  test "test calculate one buy-one-get-one-free (bogof) product in order", %{conn: conn} do
+    products = one_bogof_product_order()
+    result = 13.11
+    new_conn = post(conn, Routes.calculator_path(conn, :calculate, %{"products" => products}))
+
+    assert Map.get(new_conn.private, :phoenix_flash) ==
+             %{
+               "info" => [
+                 "Basket: ",
+                 "SR1, Strawberries - 2 x £5.00 |\n",
+                 "GR1, Green tea - 1 x £3.11 |\n"
+               ]
+             }
+
+    assert html_response(new_conn, 200) =~ "Total price expected: £13.11"
+    assert Map.get(new_conn.assigns, :result) == result
+  end
+
+  test "test order with product quantity less than discount_bulk", %{conn: conn} do
+    products = product_quantity_less_than_discount_bulk()
+    result = 32.46
+    new_conn = post(conn, Routes.calculator_path(conn, :calculate, %{"products" => products}))
+
+    assert Map.get(new_conn.private, :phoenix_flash) ==
+             %{
+               "info" => [
+                 "Basket: ",
+                 "SR1, Strawberries - 2 x £5.00 |\n",
+                 "CF1, Coffee - 2 x £11.23 |\n"
+               ]
+             }
+
+    assert html_response(new_conn, 200) =~ "Total price expected: £32.46"
     assert Map.get(new_conn.assigns, :result) == result
   end
 
@@ -73,9 +109,23 @@ defmodule CheckCalcWeb.CalculatorControllerTest do
     }
   end
 
-  def bogof_one_product_order() do
+  def two_bogof_products_order() do
     %{
-      "3" => %{"code" => "GR1", "quantity" => "1"}
+      "3" => %{"code" => "GR1", "quantity" => "2"}
+    }
+  end
+
+  def one_bogof_product_order() do
+    %{
+      "3" => %{"code" => "GR1", "quantity" => "1"},
+      "4" => %{"code" => "SR1", "quantity" => "2"}
+    }
+  end
+
+  def product_quantity_less_than_discount_bulk() do
+    %{
+      "3" => %{"code" => "SR1", "quantity" => "2"},
+      "4" => %{"code" => "CF1", "quantity" => "2"}
     }
   end
 end
