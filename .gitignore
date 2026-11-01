@@ -25,7 +25,7 @@ fuel_calc-*.tar
 # Since we are building assets from assets/,
 # we ignore priv/static. You may want to comment
 # this depending on your deployment strategy.
-/priv/static/
+/priv/static/assets/
 /priv/*service_account.json
 /assets/node_modules/
 
@@ -66,7 +66,6 @@ erl_crash.dump
 .idea/
 .idea/*
 .rebar/*
-priv/*
 appdata/*
 ebin/*.app
 *.ets
