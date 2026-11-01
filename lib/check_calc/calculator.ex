@@ -44,16 +44,11 @@ defmodule CheckCalc.Calculator do
   end
 
   def calculate_bogof_value(product, quantity) do
-    case quantity > 1 do
-      true ->
-        product.price
-        |> Decimal.mult(%Decimal{coef: quantity * 100, exp: -2})
-        |> Decimal.sub(product.price)
-        |> Decimal.normalize()
+    paid_items = div(quantity, 2) + rem(quantity, 2)
 
-      false ->
-        product.price
-    end
+    product.price
+    |> Decimal.mult(paid_items)
+    |> Decimal.normalize()
   end
 
   def calculate_discount_value(product, quantity) do

@@ -21,7 +21,7 @@ defmodule CheckCalcWeb.CalculatorControllerTest do
 
   test "calculate non-empty order", %{conn: conn} do
     products = non_groupped_order()
-    result = 66.61
+    result = 60.39
     new_conn = post(conn, Routes.calculator_path(conn, :calculate, %{"products" => products}))
 
     assert Map.get(new_conn.private, :phoenix_flash) ==
@@ -34,7 +34,7 @@ defmodule CheckCalcWeb.CalculatorControllerTest do
                ]
              }
 
-    assert html_response(new_conn, 200) =~ "Total price expected: £66.61"
+    assert html_response(new_conn, 200) =~ "Total price expected: £60.39"
     assert Map.get(new_conn.assigns, :result) == result
   end
 
@@ -59,6 +59,16 @@ defmodule CheckCalcWeb.CalculatorControllerTest do
 
     assert html_response(new_conn, 200) =~ "Total price expected: £3.11"
     assert Map.get(new_conn.assigns, :result) == result
+  end
+
+  test "calculate four buy-one-get-one-free (bogof) products: every second one is free", %{
+    conn: conn
+  } do
+    products = %{"1" => %{"code" => "GR1", "quantity" => "4"}}
+    new_conn = post(conn, Routes.calculator_path(conn, :calculate, %{"products" => products}))
+
+    assert html_response(new_conn, 200) =~ "Total price expected: £6.22"
+    assert Map.get(new_conn.assigns, :result) == 6.22
   end
 
   test "test calculate one buy-one-get-one-free (bogof) product in order", %{conn: conn} do
